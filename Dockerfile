@@ -37,5 +37,5 @@ EXPOSE 22
 EXPOSE 8081
 
 #ENTRYPOINT /usr/sbin/sshd -D && /usr/jexus/jws start
-CMD /usr/sbin/sshd
+CMD /usr/jexus/jws start & /usr/sbin/sshd
 
