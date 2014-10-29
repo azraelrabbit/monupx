@@ -12,14 +12,14 @@ RUN echo "deb http://mirrors.ustc.edu.cn/ubuntu/ trusty main restricted universe
 RUN sh -c "echo 'deb http://download.opensuse.org/repositories/home:/tpokorra:/mono/xUbuntu_14.04/ /' >> /etc/apt/sources.list.d/mono-opt.list"
 
 RUN apt-get update
-RUN apt-get install -y --force-yes openssh-server
+RUN apt-get install -y --force-yes curl openssh-server mono-opt
 
 RUN mkdir -p /var/run/sshd
-RUN echo "root:monupx" |chpasswd
+RUN echo 'root:monupx' |chpasswd
 
 #Install mono-opt
 #RUN apt-get update
-RUN apt-get install -y --force-yes mono-opt
+#RUN apt-get install -y --force-yes  mono-opt
 
 #set the PATH for mono-opt
 ENV PATH $PATH:/opt/mono/bin
@@ -37,3 +37,5 @@ EXPOSE 22
 EXPOSE 8081
 
 #ENTRYPOINT /usr/sbin/sshd -D && /usr/jexus/jws start
+CMD /usr/sbin/sshd
+
