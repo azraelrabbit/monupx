@@ -15,7 +15,7 @@ RUN apt-get update
 RUN apt-get install -y --force-yes curl openssh-server mono-opt
 
 RUN mkdir -p /var/run/sshd
-RUN echo 'root:monupx' |chpasswd
+RUN echo root:monupx |chpasswd
 
 #Install mono-opt
 #RUN apt-get update
