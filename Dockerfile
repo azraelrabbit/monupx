@@ -3,23 +3,22 @@ FROM ubuntu:14.04.1
 
 MAINTAINER azraelrabbit <azraelrabbit@gmail.com>
 
-#Install required system packages
-
-#change sources to china local mirrors
-RUN echo "deb http://mirrors.ustc.edu.cn/ubuntu/ trusty main restricted universe multiverse" > /etc/apt/sources.list
-
 #add mono-opt source
 RUN sh -c "echo 'deb http://download.opensuse.org/repositories/home:/tpokorra:/mono/xUbuntu_14.04/ /' >> /etc/apt/sources.list.d/mono-opt.list"
 
+#Install mono-opt
+#RUN apt-get update
+#RUN apt-get install -y --force-yes mono-opt
 RUN apt-get update
 RUN apt-get install -y --force-yes curl openssh-server mono-opt
 
+RUN sed -i 's/UsePAM yes/UsePAM no/g' /etc/ssh/sshd_config
 RUN mkdir -p /var/run/sshd
-RUN echo root:monupx |chpasswd
+RUN echo "root:monups" |chpasswd
+RUN useradd admin  &&  echo "admin:monupx" | chpasswd  &&  echo "admin   ALL=(ALL)       ALL" >> /etc/sudoers 
 
-#Install mono-opt
-#RUN apt-get update
-#RUN apt-get install -y --force-yes  mono-opt
+# Fix PAM login issue with sshd
+RUN sed -i 's/session    required     pam_loginuid.so/#session    required     pam_loginuid.so/g' /etc/pam.d/sshd
 
 #set the PATH for mono-opt
 ENV PATH $PATH:/opt/mono/bin
@@ -35,7 +34,7 @@ EXPOSE 22
 
 # open port for jexus web server
 EXPOSE 8081
-
-#ENTRYPOINT /usr/sbin/sshd -D && /usr/jexus/jws start
-CMD /usr/jexus/jws start & /usr/sbin/sshd
-
+#&& /usr/jexus/jws start
+#ENTRYPOINT /usr/sbin/sshd -D 
+#CMD    ["/usr/sbin/sshd", "-D"]
+CMD  /usr/jexus/jws start && /usr/sbin/sshd &
