@@ -1,4 +1,4 @@
-# This for mono-opt under ubuntu 14.04.1
+﻿# This for mono-opt under ubuntu 14.04.1
 FROM ubuntu:14.04.1
 
 MAINTAINER azraelrabbit <azraelrabbit@gmail.com>
@@ -31,6 +31,9 @@ RUN curl jexus.org/5.6.3/install|sh
 
 # open port for ssh 
 EXPOSE 22
+
+# mount Volumn on host dir
+VOLUME ["/monup"]
 
 # open port for jexus web server
 EXPOSE 8081
