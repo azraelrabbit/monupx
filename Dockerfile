@@ -33,7 +33,7 @@ RUN curl jexus.org/5.6.3/install|sh
 EXPOSE 22
 
 # mount Volumn on host dir
-VOLUME ["/monup"] ["/monupdata"]
+VOLUME ["/monup"]
 
 # open port for jexus web server
 EXPOSE 8081
